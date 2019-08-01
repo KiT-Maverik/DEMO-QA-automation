@@ -1,0 +1,32 @@
+{
+  "url": {
+    "example": "http://example.org/",
+    "iana": "https://www.iana.org/domains/reserved"
+  },
+  "exampleContent": {
+    "header": "Example Domain",
+    "description": "This domain is established to be used for illustrative examples in documents. You may use this domain in examples without prior coordination or asking for permission.",
+    "linkText": "More information..."
+  },
+  "properties": {
+    "div": {
+      "minimized": {
+        "width": "600px",
+        "margin": "80px 329px",
+        "padding": "50px",
+        "backgroundColor": "rgba(255,255,255,1)",
+        "borderRadius": "16px"
+      },
+      "maximized": {
+        "width": "618px",
+        "margin": "0px",
+        "padding": "16px",
+        "backgroundColor": "rgba(255,255,255,1)",
+        "borderRadius": "0px"
+      }
+    },
+    "link": {
+      "destination": "http://www.iana.org/domains/example"
+    }
+  }
+}

@@ -1,0 +1,8 @@
+.idea/
+**/allure-report/
+**/allure-results/
+/allure/history/
+**/failed-tests/
+**/node_modules/
+
+/statusReport.json

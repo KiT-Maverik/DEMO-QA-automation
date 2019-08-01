@@ -1,0 +1,37 @@
+[
+  {
+    "name": "Product defects",
+    "matchedStatuses": [
+      "failed"
+    ],
+    "traceRegex": "AssertionError: s.*"
+  },
+  {
+    "name": "Test defects",
+    "matchedStatuses": [
+      "broken"
+    ],
+    "messageRegex": "element .* still not visible after .*ms"
+  },
+  {
+    "name": "Test defects",
+    "matchedStatuses": [
+      "broken"
+    ],
+    "messageRegex": ".* is not defined"
+  },
+  {
+    "name": "Infrastructure problems",
+    "matchedStatuses": [
+      "broken"
+    ],
+    "messageRegex": "Timeout of .*ms exceeded. Try to reduce the run time or increase your timeout for test specs .*"
+  },
+  {
+    "name": "Change-related defects",
+    "matchedStatuses": [
+      "broken"
+    ],
+    "messageRegex": "An element could not be located on the page using the given search parameters."
+  }
+]
