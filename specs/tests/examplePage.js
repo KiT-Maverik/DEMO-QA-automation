@@ -1,5 +1,4 @@
 import data from '../data.json';
-import BasePage from '../pageObject/BasePage';
 import MainPage from '../pageObject/MainPage';
 import {assert} from 'chai';
 import reporter from 'wdio-allure-reporter';
