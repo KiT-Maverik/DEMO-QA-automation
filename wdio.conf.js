@@ -136,7 +136,7 @@ exports.config = {
             // Removing false test failure records (if any)
             if (fs.existsSync(aggregatorFilePath)) {
                 fs.unlinkSync(aggregatorFilePath);
-                console.log("     || INFORMATION\n     || Failed test record removed, since test passed on retry (" + test.title + ").");
+                console.log("\t|| INFORMATION\n\t|| Failed test record removed, since test passed on retry (" + test.title + ").");
             }
         }
 
@@ -147,8 +147,8 @@ exports.config = {
                 console.log('RETRY: ' + test.title);
             } else if (test.err.message) {
                 console.log('FAILED: ' + test.title);
-                console.log('     || Error type: ' + test.err.type);
-                console.log('     || Error message: ' + test.err.message);
+                console.log('\t|| Error type: ' + test.err.type);
+                console.log('\t|| Error message: ' + test.err.message);
             }
 
             // Saving failed test info into a file
@@ -158,9 +158,9 @@ exports.config = {
                     failedTestData.title = test.title;
                     failedTestData.spec = test.file;
                     fs.writeFileSync(aggregatorFilePath, JSON.stringify(failedTestData));
-                    console.log("     || Failed test record saved (" + test.title + ")");
+                    console.log("\t|| Failed test record saved (" + test.title + ")");
                 } else if (fs.existsSync(aggregatorFilePath)) {
-                    console.log("     || Failed test record already exist (" + test.title + ")");
+                    console.log("\t|| Failed test record already exist (" + test.title + ")");
                 }
             }
         }

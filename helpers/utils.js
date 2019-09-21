@@ -1,8 +1,6 @@
 import reporter from "wdio-allure-reporter";
 import _ from 'lodash';
 
-let config = require('../wdio.conf').config;
-
 const acc = {};
 
 
@@ -20,8 +18,8 @@ function safeHook(context, callback, force = false, counter = 0) {
             let currentTestReport;
             (hookType === "\"before all\" hook") ? currentTestReport = '' :
                 currentTestReport = 'Test: ' + context.currentTest.title;
-            console.log("     || INFORMATION\n     || Hook passed on retry (counter: " + counter + ")");
-            console.log("     || Hook type: " + hookType + ". Suite: " + hookSuite + ". " + currentTestReport);
+            console.log("\t|| INFORMATION\n\t|| Hook passed on retry (counter: " + counter + ")");
+            console.log("\t|| Hook type: " + hookType + ". Suite: " + hookSuite + ". " + currentTestReport);
         }
     } catch (e) {
         if (counter < browser.options.mochaOpts.retries) {
@@ -33,7 +31,7 @@ function safeHook(context, callback, force = false, counter = 0) {
             e.testStepTitle = hookType + " failed at \"" + context.currentTest.title + "\".";
         _.set(acc, errAddress, e);
         (e.type === 'RuntimeError' && e.message === 'timeout') ?
-            console.log("     || INFORMATION\n     || Screenshot not saved, " +
+            console.log("\t|| INFORMATION\n\t|| Screenshot not saved, " +
                 "because Runtime (timeout) error appears in " + e.testStepTitle) :
             _.set(acc, "screenshots." + hookSuite, browser.saveScreenshot());
     }
@@ -66,7 +64,7 @@ function testStep(testStepTitle, callback) {
         reporter.createStep(testStepTitle);
     } catch (e) {
         (e.type === 'RuntimeError' && e.message === 'timeout') ?
-            console.log("     || INFORMATION\n     || Screenshot not saved, " +
+            console.log("\t|| INFORMATION\n\t|| Screenshot not saved, " +
                 "because Runtime (timeout) error appears in " + testStepTitle) :
             reporter.createAttachment('Screenshot', browser.saveScreenshot(), 'image/png');
         reporter.createStep(testStepTitle, undefined, undefined, 'failed');
@@ -108,3 +106,5 @@ function hierarchyBuilder(reverse = false) {
 export {
     acc, safeHook, init, testStep, hierarchyBuilder
 }
+
+// TODO retries logic

@@ -3,7 +3,7 @@ import reporter from "wdio-allure-reporter";
 import {safeHook, init, testStep} from '../../../helpers/utils';
 
 describe('1st dummy test suite', () => {
-
+    let stableCheck = () => assert.isTrue(true, 'This step should succeed.');
 
     describe('Stable tests', () => {
 
@@ -24,15 +24,15 @@ describe('1st dummy test suite', () => {
             });
 
             testStep('1stStep', () => {
-                assert.isTrue(true, 'This step should succeed.');
+                stableCheck();
             });
 
             testStep('2ndStep', () => {
-                assert.isTrue(true, 'This step should succeed.');
+                stableCheck();
             });
 
             testStep('3rdStep', () => {
-                assert.isTrue(true, 'This step should succeed.');
+                stableCheck();
             });
         });
 
@@ -45,11 +45,11 @@ describe('1st dummy test suite', () => {
             });
 
             testStep('1stStep', () => {
-                assert.isTrue(true, 'This step should succeed.');
+                stableCheck();
             });
 
             testStep('2ndStep', () => {
-                assert.isTrue(true, 'This step should succeed.');
+                stableCheck();
             });
         });
 
@@ -68,7 +68,10 @@ describe('1st dummy test suite', () => {
     });
 
     describe('Unstable tests', () => {
-        let successCriteria = true, killHook = false;
+        let successCriteria = true,
+            killHook = false,
+            unstableCheck = () => assert.isTrue(successCriteria, 'This step may fail.');
+        
         (process.argv.includes("--kill")) && (successCriteria = false);
 
         beforeEach(function () {
@@ -99,15 +102,15 @@ describe('1st dummy test suite', () => {
             });
 
             testStep('1stStep', () => {
-                assert.isTrue(successCriteria, 'This step may fail.');
+                unstableCheck();
             });
 
             testStep('2ndStep', () => {
-                assert.isTrue(true, 'This step should succeed.');
+                stableCheck();
             });
 
             testStep('3rdStep', () => {
-                assert.isTrue(true, 'This step should succeed.');
+                stableCheck();
             });
         });
 
@@ -120,11 +123,11 @@ describe('1st dummy test suite', () => {
             });
 
             testStep('1stStep', () => {
-                assert.isTrue(true, 'This step should succeed.');
+                stableCheck();
             });
 
             testStep('2ndStep', () => {
-                assert.isTrue(successCriteria, 'This step may fail.');
+                unstableCheck();
             });
         });
 
@@ -137,7 +140,7 @@ describe('1st dummy test suite', () => {
             });
 
             testStep('1stStep', () => {
-                assert.isTrue(true, 'This step should succeed.');
+                stableCheck();
             });
         });
 

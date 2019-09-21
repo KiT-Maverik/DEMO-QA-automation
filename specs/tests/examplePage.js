@@ -70,21 +70,21 @@ describe('Example page', () => {
             });
 
             testStep('Recording style state', () => {
-                width = browser.getCssProperty(main.elements.div, "width").value;
-                margin = browser.getCssProperty(main.elements.div, "margin").value;
-                padding = browser.getCssProperty(main.elements.div, "padding").value;
-                backgroundColor = browser.getCssProperty(main.elements.div, "background-color").value;
-                borderRadius = browser.getCssProperty(main.elements.div, "border-radius").value;
+                let dataset = main.elements.div;
+                width = browser.getCssProperty(dataset, "width").value;
+                margin = browser.getCssProperty(dataset, "margin").value;
+                padding = browser.getCssProperty(dataset, "padding").value;
+                backgroundColor = browser.getCssProperty(dataset, "background-color").value;
+                borderRadius = browser.getCssProperty(dataset, "border-radius").value;
             });
 
             testStep('Verifying style state', () => {
-                assert.equal(width, data.properties.div.maximized.width, 'Unexpected div width');
-                assert.equal(margin, data.properties.div.maximized.margin, 'Wrong div margin');
-                assert.equal(padding, data.properties.div.maximized.padding, 'Incorrect div padding');
-                assert.equal(backgroundColor, data.properties.div.maximized.backgroundColor, 'Bo-o-oring background color');
-                assert.equal(borderRadius, data.properties.div.maximized.borderRadius, 'This radius is as wrong, as your code!');
-
-
+                let dataset = data.properties.div.maximized;
+                assert.equal(width, dataset.width, 'Unexpected div width');
+                assert.equal(margin, dataset.margin, 'Wrong div margin');
+                assert.equal(padding, dataset.padding, 'Incorrect div padding');
+                assert.equal(backgroundColor, dataset.backgroundColor, 'Bo-o-oring background color');
+                assert.equal(borderRadius, dataset.borderRadius, 'This radius is as wrong, as your code!');
             });
         });
 
@@ -107,21 +107,21 @@ describe('Example page', () => {
             });
 
             testStep('Recording style state', () => {
-                width = browser.getCssProperty(main.elements.div, "width").value;
-                margin = browser.getCssProperty(main.elements.div, "margin").value;
-                padding = browser.getCssProperty(main.elements.div, "padding").value;
-                backgroundColor = browser.getCssProperty(main.elements.div, "background-color").value;
-                borderRadius = browser.getCssProperty(main.elements.div, "border-radius").value;
+                let dataset = main.elements.div;
+                width = browser.getCssProperty(dataset, "width").value;
+                margin = browser.getCssProperty(dataset, "margin").value;
+                padding = browser.getCssProperty(dataset, "padding").value;
+                backgroundColor = browser.getCssProperty(dataset, "background-color").value;
+                borderRadius = browser.getCssProperty(dataset, "border-radius").value;
             });
 
             testStep('Verifying style state', () => {
-                assert.equal(width, data.properties.div.minimized.width, 'Unexpected div width');
-                assert.equal(margin, data.properties.div.minimized.margin, 'Wrong div margin');
-                assert.equal(padding, data.properties.div.minimized.padding, 'Incorrect div padding');
-                assert.equal(backgroundColor, data.properties.div.minimized.backgroundColor, 'Bo-o-oring background color');
-                assert.equal(borderRadius, data.properties.div.minimized.borderRadius, 'This radius is as wrong, as your code!');
-
-
+                let dataset = data.properties.div.minimized;
+                assert.equal(width, dataset.width, 'Unexpected div width');
+                assert.equal(margin, dataset.margin, 'Wrong div margin');
+                assert.equal(padding, dataset.padding, 'Incorrect div padding');
+                assert.equal(backgroundColor, dataset.backgroundColor, 'Bo-o-oring background color');
+                assert.equal(borderRadius, dataset.borderRadius, 'This radius is as wrong, as your code!');
             });
         });
     });
