@@ -4,37 +4,39 @@ import _ from 'lodash';
 const acc = {};
 
 
-function safeHook(context, callback, force = false, counter = 0) {
+function safeHook(context, callback, force = false) {
     let hookSuite = _.camelCase(context.test.parent.title),
         hookType = context.test.title,
         errAddress = 'hookErrors.' + hookSuite;
 
     if (errorHound(context) && !force) return;
 
-    try {
-        callback.call(context);
-        if (counter > 0) {
-            _.unset(acc, errAddress);
-            let currentTestReport;
-            (hookType === "\"before all\" hook") ? currentTestReport = '' :
-                currentTestReport = 'Test: ' + context.currentTest.title;
-            console.log("\t|| INFORMATION\n\t|| Hook passed on retry (counter: " + counter + ")");
-            console.log("\t|| Hook type: " + hookType + ". Suite: " + hookSuite + ". " + currentTestReport);
+    let retriesCounter = 0,
+        retriesQty = browser.options.mochaOpts.retries || 0;
+
+    do {
+        try {
+            callback.call(context);
+            if (retriesCounter) {
+                _.unset(acc, errAddress);
+                let currentTestReport;
+                (hookType === "\"before all\" hook") ? currentTestReport = '' :
+                    currentTestReport = 'Test: ' + context.currentTest.title;
+                console.log(`\t|| INFORMATION\n\t|| Hook passed on retry (counter: ${retriesCounter}).\n\t|| Hook type: ${hookType}. Suite: ${hookSuite}. ${currentTestReport}.`);
+            }
+            break;
+        } catch (e) {
+            (hookType === '"before all" hook') ? e.testStepTitle = "'Before all' hook failed" :
+                e.testStepTitle = `${hookType} failed at ${context.currentTest.title}.`;
+            _.set(acc, errAddress, e);
+            (e.type === 'RuntimeError' && e.message === 'timeout') ?
+                console.log("\t|| INFORMATION\n\t|| Screenshot not saved, " +
+                    "because Runtime (timeout) error appears in " + e.testStepTitle) :
+                _.set(acc, "screenshots." + hookSuite, browser.saveScreenshot());
+            retriesCounter++;
+            if (retriesCounter <= retriesQty) browser.reload();
         }
-    } catch (e) {
-        if (counter < browser.options.mochaOpts.retries) {
-            browser.reload();
-            safeHook(context, callback, force, counter + 1);
-            return;
-        }
-        (hookType === "\"before all\" hook") ? e.testStepTitle = "'Before all' hook failed" :
-            e.testStepTitle = hookType + " failed at \"" + context.currentTest.title + "\".";
-        _.set(acc, errAddress, e);
-        (e.type === 'RuntimeError' && e.message === 'timeout') ?
-            console.log("\t|| INFORMATION\n\t|| Screenshot not saved, " +
-                "because Runtime (timeout) error appears in " + e.testStepTitle) :
-            _.set(acc, "screenshots." + hookSuite, browser.saveScreenshot());
-    }
+    } while (retriesCounter <= retriesQty);
 }
 
 function init(context, callback, skip = false) {
@@ -107,4 +109,7 @@ export {
     acc, safeHook, init, testStep, hierarchyBuilder
 }
 
-// TODO retries logic
+// TODO add framework structure desc in docs
+// TODO investigate proxy potential as failed tests and hook retries info storage (singleton)
+// TODO go 5?
+// TODO log hook retries info after test sign in CLI?
